@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Validate bootstrap help",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "validate:bootstrap"]
+    },
+    {
+      "name": "Preview apply dry-run",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/apply-api-testing-kit.js",
+        "--target",
+        "/tmp/api-quality-kit-smoke",
+        "--slug",
+        "sample-api",
+        "--assistant",
+        "both",
+        "--dry-run"
+      ]
+    },
+    {
+      "name": "Compatibility alias help",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/apply-api-testing-kit.js", "--help"]
+    }
+  ],
+  "autoVerify": true
+}

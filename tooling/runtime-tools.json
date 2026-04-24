@@ -1,0 +1,50 @@
+{
+  "newman": {
+    "type": "pnpm-local-package",
+    "packageName": "newman",
+    "version": "6.2.2",
+    "installCommand": "pnpm install",
+    "wrapperCommand": "pnpm run tool:newman --",
+    "verifyCommand": "pnpm run tool:newman -- --version",
+    "notes": "Pinned in package.json and executed locally through the repo wrapper."
+  },
+  "k6": {
+    "type": "local-binary-or-container-wrapper",
+    "binary": "k6",
+    "wrapperCommand": "pnpm run tool:k6 --",
+    "verifyCommand": "pnpm run tool:k6 -- version",
+    "containerImage": "grafana/k6:latest",
+    "prerequisites": [
+      "Docker Desktop with `docker` on PATH for container mode",
+      "Optional local `k6` binary on PATH for native mode"
+    ],
+    "notes": "Wrapper prefers a local binary when present and falls back to the container image for result/<slug>/09-performance/ assets."
+  },
+  "zap": {
+    "type": "local-binary-or-container-wrapper",
+    "binaryCandidates": [
+      "zap.sh",
+      "zaproxy"
+    ],
+    "wrapperCommand": "pnpm run tool:zap --",
+    "verifyCommand": "pnpm run tool:zap -- -version",
+    "containerImage": "ghcr.io/zaproxy/zaproxy:stable",
+    "prerequisites": [
+      "Docker Desktop with `docker` on PATH for container mode",
+      "Optional local ZAP app exposing `zap.sh` or `zaproxy` on PATH for native mode"
+    ],
+    "notes": "Wrapper prefers a local ZAP install when present and otherwise runs the official stable container image."
+  },
+  "jmeter": {
+    "type": "local-binary-or-container-wrapper",
+    "binary": "jmeter",
+    "wrapperCommand": "pnpm run tool:jmeter --",
+    "verifyCommand": "pnpm run tool:jmeter -- --version",
+    "containerImage": "justb4/jmeter:5.5",
+    "prerequisites": [
+      "Docker Desktop with `docker` on PATH for container mode",
+      "Optional local `jmeter` binary on PATH for native mode"
+    ],
+    "notes": "Wrapper prefers a local binary when present and otherwise runs the published `justb4/jmeter` container image."
+  }
+}

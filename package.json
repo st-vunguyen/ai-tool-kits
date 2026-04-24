@@ -1,0 +1,27 @@
+{
+  "name": "api-testing-kit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Spec-first API testing kit with prompts, templates, scaffold scripts, and source-controlled runtime tool manifests.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "apply": "node ./scripts/apply-api-testing-kit.js",
+    "apply:compat": "node ./scripts/apply-api-quality-engineering-kit.js",
+    "apply:dry-run": "node ./scripts/apply-api-testing-kit.js --dry-run",
+    "runtime:list": "node ./scripts/runtime-tools.js list",
+    "runtime:plan": "node ./scripts/runtime-tools.js plan",
+    "runtime:prepare": "node ./scripts/runtime-tools.js prepare",
+    "runtime:doctor": "node ./scripts/runtime-tools.js doctor",
+    "tool:newman": "node ./scripts/runtime-tools.js exec newman",
+    "tool:k6": "node ./scripts/runtime-tools.js exec k6",
+    "tool:zap": "node ./scripts/runtime-tools.js exec zap",
+    "tool:jmeter": "node ./scripts/runtime-tools.js exec jmeter",
+    "validate:bootstrap": "node ./scripts/apply-api-testing-kit.js --help"
+  },
+  "devDependencies": {
+    "newman": "6.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
