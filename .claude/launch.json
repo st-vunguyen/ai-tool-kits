@@ -15,8 +15,6 @@
         "/tmp/api-quality-kit-smoke",
         "--slug",
         "sample-api",
-        "--assistant",
-        "both",
         "--dry-run"
       ]
     },

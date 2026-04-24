@@ -79,12 +79,14 @@ If the impacted pack changes, also update the relevant files under:
 - Follow the same bootstrap behavior as `../00-orchestration/00-run-pipeline.prompt.md`
 - Resolve `KIT_ROOT` and `TARGET_REPO_ROOT` first
 - Ensure these files exist before maintenance starts:
+  - `AGENTS.md`
   - `.claude/agents/api-testing-qc.agent.md`
-  - `.claude/rules/api-testing.instructions.md`
-  - `.claude/rules/reporting.instructions.md`
-  - `.github/instructions/api-testing.instructions.md`
-  - `.github/instructions/reporting.instructions.md`
-  - `testing/SKILL.md`
+  - `.claude/agents/api-spec-reviewer.agent.md`
+  - `.claude/agents/api-report-verifier.agent.md`
+  - `.claude/rules/planning.md`
+  - `.claude/rules/testing.md`
+  - `.claude/rules/reporting.md`
+  - `.claude/skills/testing/SKILL.md`
 - If any file is missing or outdated, create directories and copy or refresh from the kit before continuing
 
 ### Change impact analysis is mandatory
@@ -147,7 +149,7 @@ Do not mark maintenance complete until all of the following are true:
 
 1. Resolve `KIT_ROOT` and `TARGET_REPO_ROOT`
 2. Create missing bootstrap directories
-3. Copy or refresh agent, instructions, and `testing/SKILL.md`
+3. Copy or refresh `AGENTS.md`, `.claude/agents/`, `.claude/rules/`, and `.claude/skills/` as needed
 4. Record exact bootstrap paths in the final report
 
 ### B — Detect spec and documentation changes

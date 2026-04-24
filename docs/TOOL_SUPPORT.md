@@ -2,22 +2,28 @@
 
 This repository keeps all support sources in-repo and uses one shared operational contract for both Copilot and Claude.
 
+The active editor-loaded guidance is routed through `.claude/rules/` and `.claude/skills/`, while `.github/prompts/` stays the canonical prompt library.
+
 ## Support model
 
 | Layer | Copilot | Claude | Commit? |
 |---|---|---|---|
 | Prompt source | `.github/prompts/` | `.github/prompts/` + `.claude/*` support | Yes |
-| Instructions / rules | `.github/instructions/` | `.claude/rules/` | Yes |
-| Agent persona | N/A | `.claude/agents/api-testing-qc.agent.md` | Yes |
-| Shared skill contract | `.github/testing/SKILL.md` | `.claude/skills/testing/SKILL.md` | Yes |
+| Active rules | `.claude/rules/` via editor settings | `.claude/rules/` | Yes |
+| Agent persona | `AGENTS.md` + `.claude/*` guidance | `.claude/agents/*.agent.md` | Yes |
+| Active skills | `.claude/skills/` via editor settings | `.claude/skills/` | Yes |
 | Input specs | `specs/**` | `specs/**` | Yes |
 | Output artifacts | `result/**` | `result/**` | Yes, except runtime-only raw/env files |
 
 ## Shared Rules
 
-- `.github/testing/SKILL.md` and `.claude/skills/testing/SKILL.md` must mirror the same business and operating contract.
-- They must not diverge on source of truth, output roots, runtime toolchain, status coverage rules, or artifact hygiene.
-- If one side is expanded for runtime or process behavior, the other side must be updated to match.
+- `AGENTS.md`, `.claude/rules/`, and `.claude/skills/` must agree on source of truth, output roots, runtime toolchain, status coverage rules, and artifact hygiene.
+- `.github/prompts/` must not contradict the active `.claude/*` guidance.
+- The repository should maintain a single active instruction model rather than parallel competing rule sets.
+
+## Cleanup note
+
+- Do not reintroduce `.github/instructions/` or `.github/testing/` mirrors unless the editor-loading model changes from `.claude/*` back to a dual-source setup.
 
 ## Shared Runtime Contract
 

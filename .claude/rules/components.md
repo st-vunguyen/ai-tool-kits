@@ -4,11 +4,12 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 
 # Artifact Components & Composition
 
-`components.md` in this repository should be understood as guidance for composing the parts of an API testing pack.
+`components.md` in this repository is guidance for composing a **complete, reviewable API verification pack**.
 
 ## A Complete Pack Usually Includes
 
 - strategy docs
+- review findings
 - traceability docs
 - Postman collection
 - environment templates
@@ -19,19 +20,25 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 
 ## Sensible Breakdown
 
-- `strategy/` for planning and scope decisions
-- `traceability/` for request ↔ spec ↔ status ↔ evidence mapping
-- `postman/` for runnable collections and environment JSON files
-- `env/` for CLI-friendly `.env.example` files or contracts
-- `data/` for sample, generator, and status-case payloads
-- `performance/` for k6, Newman performance, and JMeter seed assets
+- `01-review/` for spec quality, auth, pagination, patterns, and snapshot outputs
+- `02-strategy/` for planning, risk, priority, and gating decisions
+- `03-scenarios/` for journey, integration, regression, and performance scenario docs
+- `04-traceability/` for request ↔ spec ↔ status ↔ evidence mapping
+- `05-postman/` for runnable collections and environment JSON files
+- `06-env/` for CLI-friendly `.env.example` files or contracts
+- `07-data/` for sample, generator, and status-case payloads
+- `08-helpers/` for runbooks and execution helper notes
+- `09-performance/` for k6, Newman performance, ZAP, and JMeter seed assets
+- `10-reports/` for curated reports and raw evidence pointers
 
 ## Composition Rules
 
 - Each file should have one primary purpose; avoid creating giant documents that mix everything together.
+- The same scenario or case ID should stay consistent across strategy, traceability, collection, data, and reports.
 - When a request depends on auth capture or a previous step, the documentation must state that relationship clearly.
 - Examples should illustrate the pattern and must not contradict the canonical templates.
 - Compatibility mirrors may exist, but they must clearly identify the preferred source.
+- Do not claim a pack is “complete” if status coverage, setup assumptions, or evidence links are still missing.
 
 ## Naming
 
@@ -41,3 +48,4 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 ## Do Not Add
 
 - Do not add guidance for React component trees, hooks, provider nesting, or UI styling to this API testing kit repository.
+- Do not create product runtime code, backend service code, or database schema guidance under the guise of artifact composition.

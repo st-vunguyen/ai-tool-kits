@@ -59,5 +59,9 @@
     ]
   },
   "enabledPlugins": {},
-  "plansDirectory": ".claude/plans"
+  "enabledAgents": [
+    "api-testing-qc-expert",
+    "api-spec-reviewer",
+    "api-report-verifier"
+  ]
 }

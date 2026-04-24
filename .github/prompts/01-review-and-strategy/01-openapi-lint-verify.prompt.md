@@ -19,7 +19,7 @@ Create a lint review and fix proposal for the OpenAPI specification in order to:
 
 ## Guardrail
 - This prompt is an **instruction template**, not a place to store run output.
-- Write all output to `OUTPUT_DIR` under `documents/`.
+- Write all output only to `OUTPUT_DIR` under `result/<OUTPUT_SLUG>/`.
 - Do not overwrite prompt files inside `.github/prompts/`.
 
 # Required Output Files

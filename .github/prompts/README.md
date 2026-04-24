@@ -59,6 +59,7 @@ If you want the full flow, start with:
 | 24 | `04-non-functional/24-jmeter-convert-collections.prompt.md` | `result/<output-slug>/09-performance/jmeter/` + `04-traceability/` |
 | 25 | `04-non-functional/25-jmeter-execute-and-report.prompt.md` | `result/<output-slug>/10-reports/raw/performance/jmeter/` + `result/<output-slug>/10-reports/performance/jmeter/` |
 | 26 | `04-non-functional/26-jmeter-report-analysis.prompt.md` | `result/<output-slug>/10-reports/performance/jmeter/` |
+| 27 | `05-maintenance/27-verification-findings-and-recommendations.prompt.md` | `result/<output-slug>/10-reports/verification/<run-slug>/` |
 
 ## Notes
 
@@ -66,3 +67,4 @@ If you want the full flow, start with:
 - If a prompt refers to an output root, always interpret it as `result/<output-slug>/`.
 - If you need scaffolding first, run `pnpm run apply -- --slug <output-slug>`.
 - Do not create root `.github/workflows/` entries for the tested project or API; this tool prefers locally managed or container-based runners owned by the repository.
+- Use `05-maintenance/27-verification-findings-and-recommendations.prompt.md` when you need a final trust pass for findings, contradictions, root cause, and prioritized recommendations.

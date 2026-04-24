@@ -1,6 +1,6 @@
 # API Testing Kit — Practical Guideline (Vietnamese)
 
-> Nguồn support chuẩn: `.github/prompts/`, `.github/instructions/`, `.github/testing/SKILL.md`, `.claude/agents/`, `.claude/rules/`, `.claude/skills/`, `templates/api-pack/`, `scripts/`, `specs/`, và `result/`.
+> Nguồn support chuẩn: `.github/prompts/`, `.claude/agents/`, `.claude/rules/`, `.claude/skills/`, `templates/api-pack/`, `scripts/`, `specs/`, và `result/`.
 
 > English version: `docs/GUIDELINE.md`
 
@@ -104,6 +104,12 @@ pnpm run tool:jmeter -- -n -t result/<slug>/09-performance/jmeter/test-plan.jmx
 - Raw outputs vào `result/<slug>/10-reports/raw/`.
 - Curated reports vào `result/<slug>/10-reports/<run-slug>/`.
 - Phải tách asset issue, system issue, và evidence gaps.
+
+### Bước 7 — Chạy lượt trust pass cuối khi cần
+
+- Dùng `.github/prompts/05-maintenance/27-verification-findings-and-recommendations.prompt.md` khi cần một gói verify ở mức triage/chốt chất lượng.
+- Lượt này phải kiểm tra contradiction, likely root cause, confidence boundary, và recommendation có ưu tiên.
+- Ghi output vào `result/<slug>/10-reports/verification/<run-slug>/`.
 
 ## 4. Chọn flow theo nhu cầu
 

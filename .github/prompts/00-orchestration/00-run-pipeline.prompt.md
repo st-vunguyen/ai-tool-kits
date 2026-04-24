@@ -30,6 +30,7 @@ The pipeline must cover these capability groups:
 8. Security baseline add-on
 9. Performance execution and reporting
 10. Standard JMeter setup, conversion, execution, and executive analysis when requested
+11. Final verification of findings, contradictions, and prioritized recommendations when handoff trust must be explicit
 
 ## Inputs
 
@@ -56,18 +57,25 @@ Before evaluating prompt `01`, inspect this repo for the required support files 
 
 For best cross-tool compatibility, reuse both support layouts:
 
+- `AGENTS.md`
 - `.claude/agents/api-testing-qc.agent.md`
+- `.claude/agents/api-spec-reviewer.agent.md`
+- `.claude/agents/api-report-verifier.agent.md`
 - `.claude/skills/testing/SKILL.md`
 - `.claude/skills/testing/references/test-helpers-api.md`
-- `.github/instructions/api-testing.instructions.md`
-- `.github/instructions/reporting.instructions.md`
+- `.claude/rules/planning.md`
+- `.claude/rules/testing.md`
+- `.claude/rules/reporting.md`
+- `.claude/rules/verification-depth.md`
+- `.claude/rules/security.md`
+- `.claude/skills/analysis/SKILL.md`
 - `.github/prompts/**/*.prompt.md`
-- `.github/testing/SKILL.md`
+- `.vscode/settings.json`
 - `docs/RUNTIME_TOOLS.md`
 - `tooling/runtime-tools.json`
 - `scripts/runtime-tools.js`
 
-If the repo deliberately uses only one tool, document that scope explicitly and still install every required file for that tool.
+If the repo deliberately uses only one active instruction model, prefer the editor-loaded `.claude/*` guidance and keep the prompt library under `.github/prompts/` consistent with it.
 
 If an equivalent file already exists, do not overwrite blindly; compare intent and refresh only when the existing file is clearly outdated or incomplete.
 
@@ -97,6 +105,8 @@ Examples of controlled skips:
 - `23-jmeter-stack-setup` through `26-jmeter-report-analysis` when advanced JMeter coverage is out of scope, no standard JMeter workflow is needed, or the environment/tooling cannot support a trustworthy JMeter path yet
 
 Even when skipped, the prompt must still appear in the final orchestration summary.
+
+Prompt `27` is a recommended final assurance gate when the deliverable must include an explicit trust decision, contradiction review, root-cause framing, and prioritized recommendations.
 
 ## Full-Status Coverage Rule
 
@@ -235,6 +245,17 @@ The full pipeline must not describe an API as fully covered when only the succes
     - Dependency: should run after `18` and `19`
     - Purpose: bootstrap tooling, execute the generated performance workload safely, and publish curated evidence
 
+22. `../05-maintenance/22-maintenance-fully-api-testing.prompt.md`
+    - Output roots:
+      - `result/<OUTPUT_SLUG>/10-reports/<run-slug>/`
+      - refreshed assets under the impacted output folders
+    - Purpose: refresh the pack after source-spec or scope changes
+
+27. `../05-maintenance/27-verification-findings-and-recommendations.prompt.md`
+    - Output roots:
+      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/`
+    - Purpose: perform a final trust pass across findings, contradictions, likely root cause, and prioritized recommendations
+
 ### Advanced JMeter Extension
 
 Run these prompts only when advanced JMeter coverage is requested or justified.
@@ -353,7 +374,7 @@ At the end of the run, produce a structured summary with these sections:
 
 ### 2.5. Support File Summary
 
-- Exact `.github/*`, `.claude/*`, and `testing/SKILL.md` paths created or verified
+- Exact `.github/prompts/*`, `.claude/*`, and `AGENTS.md` paths created or verified
 - Any support files intentionally skipped and why
 
 ### 3. Open Questions and Gaps

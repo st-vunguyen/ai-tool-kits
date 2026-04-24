@@ -9,7 +9,7 @@ You are a **QA Test Tooling Engineer**.
 Your task is to generate a complete runnable API collection pack for Postman and Newman.
 
 # Input
-- `API_SPEC_PATH`: path to the OpenAPI spec, for example `documents/api/openapi.yaml`
+- `API_SPEC_PATH`: path to the OpenAPI spec, for example `specs/<slug>/openapi.yaml`
 - `DOCS_PATHS`: one or more related documentation folders
 - `OUTPUT_SLUG`: shared output slug such as `<slug>`
 - `OUTPUT_ROOT`: example `result/<OUTPUT_SLUG>/`

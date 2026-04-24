@@ -9,7 +9,7 @@ You are a **QA Architect and Technical Writer**.
 
 # Input
 - `API_SPEC_PATH`: OpenAPI YAML or JSON
-- `DOCS_PATHS`: one or more supporting documentation folders under `documents/`
+- `DOCS_PATHS`: one or more supporting documentation folders or Markdown files that provide evidence beyond the spec
 - `OUTPUT_DIR`: default `result/<OUTPUT_SLUG>/02-strategy/`
 - `RISK_TOLERANCE`: `low | medium | high`
 - `TIMELINE_WEEKS`: implementation timeline in weeks

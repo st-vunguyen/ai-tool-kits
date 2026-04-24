@@ -19,15 +19,12 @@ This repository is not an application codebase. It is a reusable kit for:
 
 ```text
 .github/
-├── instructions/          # Copilot instructions
-├── prompts/               # Canonical prompt source
-├── testing/SKILL.md       # Shared API testing skill source
-└── workflows/             # CI starters
+└── prompts/               # Canonical prompt source
 
 .claude/
-├── agents/                # Claude personas
-├── rules/                 # Claude repo rules
-└── skills/                # Claude skills and references
+├── agents/                # Specialized API testing personas
+├── rules/                 # Active editor-loaded repo rules
+└── skills/                # Active editor-loaded repo skills
 
 templates/
 └── api-pack/             # Canonical runnable pack template
@@ -55,9 +52,15 @@ result/<slug>/
 ## What is canonical
 
 - `.github/prompts/` is the only canonical prompt source.
-- `.github/instructions/` is the only Copilot instruction source.
-- `.claude/agents/`, `.claude/rules/`, and `.claude/skills/` are the Claude support source.
+- `.claude/rules/` and `.claude/skills/` are the active editor-loaded guidance source via `.vscode/settings.json`.
+- `.claude/agents/` contains specialized Claude personas for orchestration, spec review, and report verification.
 - `templates/api-pack/` is the only canonical runnable pack source.
+
+## Active guidance model
+
+- Both Copilot and Claude should follow `AGENTS.md` for the repo mission and boundaries.
+- Editor-routed rules and skills are loaded from `.claude/rules/` and `.claude/skills/`.
+- `.github/prompts/` remains the canonical prompt and workflow library.
 
 ## What is not product code
 
@@ -82,3 +85,4 @@ node scripts/apply-api-testing-kit.js --help
 - Never stop at `200`-only coverage when more statuses are evidenced.
 - Keep specs under `specs/` and generated artifacts under `result/`.
 - Keep only example env files committed; never commit real credentials.
+- Always push verification past summary-level output: check contradictions, isolate likely root cause, and end with prioritized recommendations.

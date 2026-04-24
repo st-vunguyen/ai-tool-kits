@@ -34,10 +34,8 @@ pnpm run apply -- --slug <slug>
 ├── specs/                                      ← Input specification source
 ├── result/                                     ← Final generated outputs
 ├── .github/
-│   ├── prompts/                                ← Canonical prompt source for the flow
-│   ├── instructions/                           ← Copilot instruction files
-│   └── testing/SKILL.md                        ← Shared skill contract for Copilot and Claude
-├── .claude/                                    ← Claude support files
+│   └── prompts/                                ← Canonical prompt source for the flow
+├── .claude/                                    ← Active rules, skills, and Claude agents
 ├── templates/api-pack/                         ← Source templates for postman, env, data, helpers, and performance assets
 ├── tooling/runtime-tools.json                  ← Runtime manifest for Newman, k6, ZAP, and JMeter
 ├── scripts/
@@ -158,11 +156,13 @@ The script creates `result/<slug>/` with the full baseline folder structure and 
 | Create E2E / integration / regression assets | `.github/prompts/03-scenario-packs/` |
 | Build k6 / Newman perf / JMeter assets | `.github/prompts/04-non-functional/` |
 | Run maintenance after a spec change | `.github/prompts/05-maintenance/22-maintenance-fully-api-testing.prompt.md` |
+| Run a final deep verification pass | `.github/prompts/05-maintenance/27-verification-findings-and-recommendations.prompt.md` |
 
 ## Key Conventions
 
 - Input specs live in `specs/<project>/`
 - The canonical prompt source is `.github/prompts/`
+- Active editor-loaded rules and skills live in `.claude/rules/` and `.claude/skills/`
 - All generated outputs live in `result/<project>/`
 - All usage instructions must go through `pnpm` or `pnpx`
 - Do not split content back into `documents/` and `tools/`

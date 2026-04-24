@@ -1,6 +1,6 @@
 # API Testing Kit — Practical Guideline (English)
 
-> Canonical support sources: `.github/prompts/`, `.github/instructions/`, `.github/testing/SKILL.md`, `.claude/agents/`, `.claude/rules/`, `.claude/skills/`, `templates/api-pack/`, `scripts/`, `specs/`, and `result/`.
+> Canonical support sources: `.github/prompts/`, `.claude/agents/`, `.claude/rules/`, `.claude/skills/`, `templates/api-pack/`, `scripts/`, `specs/`, and `result/`.
 
 > Vietnamese version: `docs/GUIDELINE.vn.md`
 
@@ -104,6 +104,12 @@ pnpm run tool:jmeter -- -n -t result/<slug>/09-performance/jmeter/test-plan.jmx
 - Raw outputs go into `result/<slug>/10-reports/raw/`.
 - Curated reports go into `result/<slug>/10-reports/<run-slug>/`.
 - Keep asset issues, system issues, and evidence gaps separate.
+
+### Step 7 — Run a final trust pass when needed
+
+- Use `.github/prompts/05-maintenance/27-verification-findings-and-recommendations.prompt.md` when you need a triage-quality verification pack.
+- This pass should check contradictions, likely root cause, confidence boundaries, and prioritized recommendations.
+- Write the output to `result/<slug>/10-reports/verification/<run-slug>/`.
 
 ## 4. Choose the Right Flow
 

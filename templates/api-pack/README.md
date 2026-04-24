@@ -32,4 +32,5 @@ result/<slug>/
 | `full-api-collection-traceability.md` | `04-traceability/full-api-collection-traceability.md` |
 | `data-driven-samples-mapping.md` | `04-traceability/data-driven-samples-mapping.md` |
 | `status-code-coverage-matrix.md` | `04-traceability/status-code-coverage-matrix.md` |
+| `reports/verification-findings-report-template.md` | `10-reports/verification/<run-slug>/` reference template |
 | `reports/raw/` | `10-reports/raw/` |

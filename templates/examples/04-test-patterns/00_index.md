@@ -12,6 +12,6 @@
 ## Example Principles
 
 - Use stable method/path or business-intent request names.
-- Keep docs in `documents/` and runnable assets in `tools/`.
+- Keep strategy, traceability, and report docs under `result/<slug>/`, and keep runnable assets in their canonical `result/<slug>/05-postman/`, `06-env/`, `07-data/`, `08-helpers/`, and `09-performance/` folders.
 - Trace variables from source request to consuming requests.
 - Keep assertions evidence-backed and minimal.

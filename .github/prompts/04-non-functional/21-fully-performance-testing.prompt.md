@@ -153,9 +153,9 @@ In the final report:
 
 - Do not fabricate application monitoring data you do not have.
 - Do not redefine the product's SLA without evidence.
-- Do not store bulky raw outputs in `documents/`.
+- Do not store bulky raw outputs outside the canonical `result/<OUTPUT_SLUG>/10-reports/raw/` tree.
 - Do not modify product source code as part of performance execution.
-- Keep all generated execution evidence inside the canonical `documents/` and `tools/` roots only.
+- Keep all generated execution evidence inside the canonical `result/<OUTPUT_SLUG>/09-performance/` and `result/<OUTPUT_SLUG>/10-reports/` roots only.
 
 ## Self-Check
 
