@@ -16,6 +16,7 @@ specs/<slug>/  →  .github/prompts/  →  result/<slug>/
 
 ```text
 result/<slug>/
+├── README.md
 ├── 01-review/
 ├── 02-strategy/
 ├── 03-scenarios/
@@ -26,6 +27,11 @@ result/<slug>/
 ├── 08-helpers/
 ├── 09-performance/
 └── 10-reports/
+	├── raw/
+	├── performance/
+	├── security-baseline/
+	├── verification/
+	└── maintenance/
 ```
 
 ## Runtime toolchain contract
@@ -40,6 +46,7 @@ result/<slug>/
 
 - read spec from `specs/<slug>/`
 - write outputs only to `result/<slug>/`
+- keep `result/<slug>/README.md` as the landing page for the pack
 - keep evidence-backed claims only
 - keep explicit status-code coverage
 - do not commit real secrets or raw runtime-only artifacts
@@ -71,6 +78,43 @@ After the base lifecycle, run one more depth pass:
 
 - never overwrite or silently normalize the source spec under `specs/`
 - if the spec is wrong or incomplete, record it and propose fixes separately under `result/`
+
+## Required Output Files enforcement (MANDATORY)
+
+This skill enforces output file completeness as a first-class quality gate.
+
+### After every generation step
+
+1. **List every file** declared in the step's `Required Output Files` section.
+2. **Verify existence and content**: each file must exist on disk with non-trivial, spec-aligned content — not placeholder text, not empty arrays, not stub outlines.
+3. **Emit a checklist** with ✅ (present + populated) or ❌ (missing or empty) for every file.
+4. **Block the next step** if any file is ❌; resolve the gap first.
+5. **Never summarize a phase as "complete"** unless every required file is confirmed ✅.
+
+### Per-status collection verification
+
+Before declaring any Postman collection output done, verify all of the following:
+
+| Check | Pass criterion |
+|---|---|
+| Operation inventory | Every spec operation has a row; no operations omitted |
+| Per-status requests | Each operation has exactly N requests where N = documented status codes |
+| Request naming | All follow `"{Verb Noun} — {CODE} {Label}"` pattern |
+| response[] populated | No request has `"response": []` |
+| Test scripts — status | Every request asserts `pm.response.to.have.status(N)` |
+| Test scripts — time | Every request asserts response time |
+| Test scripts — Content-Type | Every request asserts Content-Type header |
+| Test scripts — 2xx schema | 2xx requests assert key response fields |
+| Test scripts — 4xx message | 4xx requests assert error message field |
+| Auth env vars | No hard-coded tokens; all use `{{env_var}}` references |
+| Error triggers | 400 = invalid payload; 401 = bad/missing token; 403 = wrong scope; 404 = non-existent ID |
+| Collection-level scripts | Pre-request and Tests tabs at collection root present |
+
+### Pipeline phase gates
+
+- Phases execute in strict sequence: Phase 1 → 2 → 3 → 4.
+- Phase N+1 may not begin until Phase N's Required Output Files checklist is 100% ✅.
+- If a phase is partial, emit: `Phase N: PARTIAL — blocked on: <list of ❌ files>` and stop.
 - do not report product issues before checking whether the failure is caused by the testing asset
 - do not claim broad coverage when only happy-path cases exist
 - do not stop at symptom reporting when the likely cause and next discriminating check can be stated safely
@@ -83,6 +127,17 @@ After the base lifecycle, run one more depth pass:
 - `04-traceability/` for operation/status/case mapping
 - `05-postman/`, `06-env/`, `07-data/`, `08-helpers/`, `09-performance/` for runnable and support assets
 - `10-reports/` for curated execution evidence and report verification
+
+## Reporting expectations
+
+For meaningful execution, maintenance, performance, security-baseline, or verification outputs:
+
+- keep raw machine outputs under `10-reports/raw/`
+- keep curated markdown handoff files under `10-reports/<report-family>/<run-slug>/`
+- include `dashboard.html` when the stack or renderer supports a polished executive view
+- ensure the dashboard links back to the markdown handoff and raw evidence
+- keep the top section optimized for quick triage: overall status, major findings, blockers, and next actions
+- do not place curated runs directly under `10-reports/`; use `performance`, `security-baseline`, `verification`, or `maintenance`
 
 ## Finding quality bar
 

@@ -34,6 +34,7 @@ The goal is not just to produce a collection that passes. The goal is to produce
 
 ```text
 result/<slug>/
+├── README.md
 ├── 01-review/
 ├── 02-strategy/
 ├── 03-scenarios/
@@ -44,7 +45,19 @@ result/<slug>/
 ├── 08-helpers/
 ├── 09-performance/
 └── 10-reports/
+	├── raw/
+	├── performance/
+	├── security-baseline/
+	├── verification/
+	└── maintenance/
 ```
+
+### Reading order inside one output pack
+
+1. `result/<slug>/README.md`
+2. `result/<slug>/02-strategy/`
+3. `result/<slug>/04-traceability/`
+4. `result/<slug>/10-reports/<report-family>/<run-slug>/00_index.md`
 
 ### Command policy
 
@@ -102,8 +115,16 @@ pnpm run tool:jmeter -- -n -t result/<slug>/09-performance/jmeter/test-plan.jmx
 ### Step 6 — Store evidence and reports
 
 - Raw outputs go into `result/<slug>/10-reports/raw/`.
-- Curated reports go into `result/<slug>/10-reports/<run-slug>/`.
+- Curated reports go into `result/<slug>/10-reports/<report-family>/<run-slug>/`.
+- Preferred report families are `performance/`, `security-baseline/`, `verification/`, and `maintenance/`.
 - Keep asset issues, system issues, and evidence gaps separate.
+- When the stack supports it responsibly, curated execution and verification reports should also include `dashboard.html` for quick scanning.
+
+Example dashboard rendering command:
+
+```bash
+pnpm run report:dashboard -- build --mode newman --input result/<slug>/10-reports/raw/performance/<run-slug>/newman-summary.json --output-dir result/<slug>/10-reports/performance/<run-slug>
+```
 
 ### Step 7 — Run a final trust pass when needed
 
@@ -157,6 +178,7 @@ Use this when you need an early ZAP baseline scan.
 - `result/<slug>/` uses the correct phase layout.
 - `04-traceability/` clearly reflects multi-status coverage.
 - `10-reports/` separates raw artifacts and curated findings.
+- `10-reports/` uses named report families and avoids loose run directories.
 - Runbooks, env templates, and sample data match the intended runner behavior.
 
 ## 7. Common Mistakes to Avoid

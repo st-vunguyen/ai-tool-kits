@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const childProcess = require('child_process');
 
 function parseArgs(argv) {
   const args = {
@@ -58,53 +59,54 @@ function normalizeStats(data) {
   } else if (data && typeof data === 'object') {
     for (const [label, value] of Object.entries(data)) {
       if (value && typeof value === 'object') {
-        entries.push({ label, ...value });
+    for (let index = 0; index < argv.length; index += 1) {
+      const token = argv[index];
+      if (token.startsWith('--')) {
+        const [key, inlineValue] = token.split('=', 2);
+        const normalizedKey = key.replace(/^--/, '');
+        if (inlineValue !== undefined) {
+          args[normalizedKey] = inlineValue;
+        } else {
+          args[normalizedKey] = argv[index + 1] || '';
+          index += 1;
+        }
       }
-    }
-  }
-
-  const normalized = entries.map((entry) => {
-    const label = entry.label || entry.transaction || entry.name || entry.sampleLabel || 'Unnamed';
-    const sampleCount = pickNumber(entry, ['sampleCount', 'samplesCount', 'count', 'samples', 'n']);
-    const errorCount = pickNumber(entry, ['errorCount', 'errors', 'ko']);
-    const errorPct = pickNumber(entry, ['errorPct', 'errorPercentage', 'pctError', 'errorRate'], 0);
-    const avg = pickNumber(entry, ['meanResTime', 'avg', 'average', 'mean', 'avgResponseTime']);
-    const median = pickNumber(entry, ['medianResTime', 'median', 'med']);
-    const p90 = pickNumber(entry, ['pct1ResTime', 'p90', 'perc90', 'percentile90']);
-    const p95 = pickNumber(entry, ['pct2ResTime', 'p95', 'perc95', 'percentile95']);
-    const p99 = pickNumber(entry, ['pct3ResTime', 'p99', 'perc99', 'percentile99']);
-    const max = pickNumber(entry, ['maxResTime', 'max']);
-    const min = pickNumber(entry, ['minResTime', 'min']);
-    const throughput = pickNumber(entry, ['throughput', 'tps', 'requestsPerSecond']);
     const receivedKbSec = pickNumber(entry, ['receivedKBytesPerSec', 'receivedKbPerSec']);
     const sentKbSec = pickNumber(entry, ['sentKBytesPerSec', 'sentKbPerSec']);
 
     return {
       label,
-      sampleCount,
-      errorCount,
-      errorPct: errorPct > 0 && errorPct <= 1 ? errorPct * 100 : errorPct,
-      avg,
-      median,
-      p90,
-      p95,
-      p99,
-      max,
-      min,
-      throughput,
-      receivedKbSec,
-      sentKbSec,
-    };
-  }).filter((entry) => entry.sampleCount > 0 || entry.avg > 0 || entry.throughput > 0);
+  function main() {
+    const args = parseArgs(process.argv.slice(2));
+    if (!args.stats || !args.output) {
+      console.error('Usage: node render-jmeter-dashboard.js --stats path/to/statistics.json --output path/to/dashboard.html [--title ...] [--run-label ...] [--threshold-p95 ...] [--threshold-error-pct ...]');
+      process.exit(1);
+    }
 
-  const overall = normalized.find((entry) => /^(total|all|overall)$/i.test(entry.label)) || normalized[0] || {
-    label: 'Total',
-    sampleCount: 0,
-    errorCount: 0,
-    errorPct: 0,
-    avg: 0,
-    median: 0,
-    p90: 0,
+    const rendererPath = path.resolve(__dirname, '../../../../scripts/render-report-dashboard.js');
+    const commandArgs = [
+      rendererPath,
+      'build',
+      '--mode', 'jmeter',
+      '--input', args.stats,
+      '--output-html', args.output,
+      '--output-data', args.output.replace(/dashboard\.html$/i, 'dashboard-data.json'),
+      '--output-md', args.output.replace(/dashboard\.html$/i, '00_index.md'),
+    ];
+
+    if (args.title) commandArgs.push('--title', args.title);
+    if (args['run-label']) commandArgs.push('--run-label', args['run-label']);
+    if (args['threshold-p95']) commandArgs.push('--threshold-p95', args['threshold-p95']);
+    if (args['threshold-error-pct']) commandArgs.push('--threshold-error-pct', args['threshold-error-pct']);
+
+    const result = childProcess.spawnSync(process.execPath, commandArgs, {
+      stdio: 'inherit',
+    });
+
+    process.exit(result.status || 0);
+  }
+
+  main();
     p95: 0,
     p99: 0,
     max: 0,
@@ -334,24 +336,31 @@ function buildHtml({ title, runLabel, overall, transactions, thresholdP95Ms, thr
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (!args.stats || !args.output) {
-    console.error('Usage: node render-jmeter-dashboard.js --stats path/to/statistics.json --output path/to/dashboard.html [--title ...] [--run-label ...]');
+    console.error('Usage: node render-jmeter-dashboard.js --stats path/to/statistics.json --output path/to/dashboard.html [--title ...] [--run-label ...] [--threshold-p95 ...] [--threshold-error-pct ...]');
     process.exit(1);
   }
 
-  const data = readJson(args.stats);
-  const { overall, transactions } = normalizeStats(data);
-  const html = buildHtml({
-    title: args.title,
-    runLabel: args.runLabel,
-    overall,
-    transactions,
-    thresholdErrorPct: args.thresholdErrorPct,
-    thresholdP95Ms: args.thresholdP95Ms,
+  const rendererPath = path.resolve(__dirname, '../../../../scripts/render-report-dashboard.js');
+  const commandArgs = [
+    rendererPath,
+    'build',
+    '--mode', 'jmeter',
+    '--input', args.stats,
+    '--output-html', args.output,
+    '--output-data', args.output.replace(/dashboard\.html$/i, 'dashboard-data.json'),
+    '--output-md', args.output.replace(/dashboard\.html$/i, '00_index.md'),
+  ];
+
+  if (args.title) commandArgs.push('--title', args.title);
+  if (args.runLabel) commandArgs.push('--run-label', args.runLabel);
+  if (args.thresholdP95Ms) commandArgs.push('--threshold-p95', String(args.thresholdP95Ms));
+  if (args.thresholdErrorPct) commandArgs.push('--threshold-error-pct', String(args.thresholdErrorPct));
+
+  const result = childProcess.spawnSync(process.execPath, commandArgs, {
+    stdio: 'inherit',
   });
 
-  fs.mkdirSync(path.dirname(args.output), { recursive: true });
-  fs.writeFileSync(args.output, html, 'utf8');
-  console.log(`Dashboard written to ${args.output}`);
+  process.exit(result.status || 0);
 }
 
 main();

@@ -20,6 +20,7 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 
 ## Sensible Breakdown
 
+- `README.md` at `result/<slug>/` for the pack landing page and reading order
 - `01-review/` for spec quality, auth, pagination, patterns, and snapshot outputs
 - `02-strategy/` for planning, risk, priority, and gating decisions
 - `03-scenarios/` for journey, integration, regression, and performance scenario docs
@@ -29,7 +30,10 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 - `07-data/` for sample, generator, and status-case payloads
 - `08-helpers/` for runbooks and execution helper notes
 - `09-performance/` for k6, Newman performance, ZAP, and JMeter seed assets
-- `10-reports/` for curated reports and raw evidence pointers
+- `10-reports/raw/` for machine outputs only
+- `10-reports/performance/`, `10-reports/security-baseline/`, `10-reports/verification/`, and `10-reports/maintenance/` for curated report families
+
+Curated execution or verification report folders should usually include both markdown handoff files and an executive-style `dashboard.html` when the stack supports it.
 
 ## Composition Rules
 
@@ -39,6 +43,8 @@ globs: "**/{api-pack,templates/api-pack,examples,docs}/**/*.{md,json,example,yml
 - Examples should illustrate the pattern and must not contradict the canonical templates.
 - Compatibility mirrors may exist, but they must clearly identify the preferred source.
 - Do not claim a pack is “complete” if status coverage, setup assumptions, or evidence links are still missing.
+- Do not publish a dashboard-only report; every dashboard must have markdown handoff files or clear linked evidence behind it.
+- Do not create loose run folders directly under `10-reports/`; always place runs under a named report family.
 
 ## Naming
 

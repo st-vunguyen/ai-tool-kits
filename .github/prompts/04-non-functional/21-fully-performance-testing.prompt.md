@@ -16,6 +16,8 @@ You are a **Performance Execution Engineer + API Reliability Analyst + Safe-Envi
 
 Verify the generated performance assets, set up the required tooling, execute a safe and evidence-backed performance run, store raw outputs under the canonical raw-report path, and publish a curated report that clearly separates measured facts from assumptions and tooling limitations.
 
+When the stack supports it, the curated output should include an executive-style dashboard in addition to the markdown handoff.
+
 ## Inputs
 
 - `API_SPEC_PATH`
@@ -64,6 +66,8 @@ Create or refresh at minimum:
 - `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/03_run-results.md`
 - `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/04_findings-and-bottlenecks.md`
 - `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/05_limitations-and-next-actions.md`
+- `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/dashboard.html`
+- optional `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/dashboard-data.json`
 
 If the chosen stack supports richer runtime assets, also create them under `result/<OUTPUT_SLUG>/09-performance/`, for example:
 
@@ -103,6 +107,7 @@ If `TARGET_STACK=jmeter` and the repo needs the full standard JMeter workflow, c
 2. Create or refresh local runner scripts and environment examples.
 3. Document prerequisites in `result/<OUTPUT_SLUG>/09-performance/README.md`.
 4. Ensure raw outputs will land only under `result/<OUTPUT_SLUG>/10-reports/raw/performance/<run-slug>/`.
+5. Use `pnpm run report:dashboard -- build ...` or the shared renderer script to turn raw output into `dashboard.html` and `dashboard-data.json`.
 
 ### 3. Enforce a safe run gate
 
@@ -138,6 +143,7 @@ In the final report:
 - separate performance findings from tooling limitations
 - state whether the run is representative, constrained, or blocked
 - list exact commands, environment shape, and workload parameters used
+- align the curated output with `templates/api-pack/reports/dashboard-reporting-contract.md`
 
 ## Quality Gates
 
@@ -163,6 +169,7 @@ In the final report:
 - [ ] Runner setup files exist under `result/<OUTPUT_SLUG>/09-performance/`
 - [ ] Raw outputs exist under `result/<OUTPUT_SLUG>/10-reports/raw/performance/<run-slug>/` or the run is explicitly blocked
 - [ ] Curated report exists under `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/`
+- [ ] `dashboard.html` exists or the report clearly explains why a dashboard could not be produced responsibly
 - [ ] Measured evidence is separated from assumptions and tooling limits
 
 ## Final Response

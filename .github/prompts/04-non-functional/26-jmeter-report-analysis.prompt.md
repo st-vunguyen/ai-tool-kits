@@ -34,6 +34,7 @@ Create or refresh:
 - `result/<OUTPUT_SLUG>/10-reports/performance/jmeter/<RUN_SLUG>/03_errors-and-anomalies.md`
 - `result/<OUTPUT_SLUG>/10-reports/performance/jmeter/<RUN_SLUG>/04_capacity-and-thresholds.md`
 - `result/<OUTPUT_SLUG>/10-reports/performance/jmeter/<RUN_SLUG>/dashboard.html`
+- optional `result/<OUTPUT_SLUG>/10-reports/performance/jmeter/<RUN_SLUG>/dashboard-data.json`
 
 # Analysis Rules
 - Never present assumptions as SLAs.
@@ -49,6 +50,7 @@ Create or refresh:
 4. Call out which thresholds are evidence-backed versus assumed.
 5. Generate an executive-style HTML dashboard with scan-friendly metrics and tables.
 6. Publish a markdown handoff that helps engineers know what to check next.
+7. Keep the dashboard structure aligned with `templates/api-pack/reports/dashboard-reporting-contract.md` and `templates/api-pack/reports/dashboard-html-guidelines.md`.
 
 # Self-Check
 - [ ] Markdown summary exists
@@ -61,3 +63,4 @@ Create or refresh:
 - Dashboard is readable and professional
 - Next actions are specific
 - No invented SLA or unsupported conclusion appears in the report
+- Dashboard and markdown handoff agree on the same key findings and status labels

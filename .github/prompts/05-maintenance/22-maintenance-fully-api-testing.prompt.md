@@ -51,7 +51,7 @@ Use this prompt when one or more of the following happened:
 
 ## Output
 
-Create or refresh a maintenance report in `result/<OUTPUT_SLUG>/10-reports/<run-slug>/`:
+Create or refresh a maintenance report in `result/<OUTPUT_SLUG>/10-reports/maintenance/<run-slug>/`:
 
 | File | Content |
 |---|---|
@@ -64,12 +64,13 @@ Create or refresh a maintenance report in `result/<OUTPUT_SLUG>/10-reports/<run-
 | `06_confirmed-system-issues.md` | Confirmed product or spec issues only, with evidence |
 | `07_asset-fixes.md` | Testing-asset fixes applied during maintenance |
 | `08_final-summary.md` | Completion status, blockers, deferred work, recommendations |
+| `dashboard.html` | Executive maintenance dashboard when enough evidence exists |
 
 If the impacted pack changes, also update the relevant files under:
 
-- `result/<OUTPUT_SLUG>/`
-- `result/<OUTPUT_SLUG>/`
+- `result/<OUTPUT_SLUG>/01-review/` through `result/<OUTPUT_SLUG>/08-helpers/` when those artifacts are impacted
 - `result/<OUTPUT_SLUG>/09-performance/` when runtime security/performance tooling assets are impacted
+- `result/<OUTPUT_SLUG>/10-reports/maintenance/` for the maintenance handoff itself
 - bootstrap support files when they are missing or outdated
 
 ## Orchestration Rules
@@ -188,6 +189,7 @@ Do not mark maintenance complete until all of the following are true:
 2. Document every refreshed, reused, or skipped artifact
 3. Separate testing-asset fixes from confirmed system/spec issues
 4. Include rerun history, final readiness status, and unresolved blockers
+5. Produce a dashboard-style summary when enough maintenance evidence exists and keep it faithful to the markdown report
 
 ## Failure Handling Rules
 
@@ -227,5 +229,5 @@ Do not mark maintenance complete until all of the following are true:
 - **Testing-asset fixes**: [list]
 - **System/spec issues**: [list]
 - **Blockers**: [list]
-- **Report**: `result/<OUTPUT_SLUG>/10-reports/<run-slug>/`
+- **Report**: `result/<OUTPUT_SLUG>/10-reports/maintenance/<run-slug>/`
 ```

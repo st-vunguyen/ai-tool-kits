@@ -1,5 +1,29 @@
 # Postman / Newman Starter Pack
 
+## What this folder is for / Folder này để làm gì
+
+EN:
+- Holds runnable API collections engineers can execute (Postman GUI or Newman CLI).
+- Each request maps to one operation × one documented status code.
+- Each request carries at least one saved response example in `response[]`.
+
+VN:
+- Chứa collection API chạy được (Postman GUI hoặc Newman CLI).
+- Mỗi request tương ứng 1 operation × 1 status code.
+- Mỗi request có ít nhất 1 response example đã lưu trong `response[]`.
+
+## Who reads this / Ai đọc folder này
+
+| Audience | Why |
+|---|---|
+| QA / dev engineer | Import into Postman, run via Newman |
+| QA lead | Open `collection.json` to review test count and naming |
+| Stakeholder (non-tech) | Read the curated reports under `10-reports/` instead — Postman files are technical |
+
+## When it gets created / Khi nào folder này được sinh
+
+Phase 2 — `.github/prompts/02-core-pack/07-full-api-collection.prompt.md` (and refresh helpers `07b`, `07c`, `07d`).
+
 This folder contains the canonical runnable starter for Postman/Newman-based API testing.
 
 ## Files

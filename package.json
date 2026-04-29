@@ -8,6 +8,7 @@
     "apply": "node ./scripts/apply-api-testing-kit.js",
     "apply:compat": "node ./scripts/apply-api-quality-engineering-kit.js",
     "apply:dry-run": "node ./scripts/apply-api-testing-kit.js --dry-run",
+    "report:dashboard": "node ./scripts/render-report-dashboard.js",
     "runtime:list": "node ./scripts/runtime-tools.js list",
     "runtime:plan": "node ./scripts/runtime-tools.js plan",
     "runtime:prepare": "node ./scripts/runtime-tools.js prepare",

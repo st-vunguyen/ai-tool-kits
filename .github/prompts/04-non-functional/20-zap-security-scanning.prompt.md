@@ -11,12 +11,25 @@ You are an **AppSec-Minded QA and API Test Tooling Engineer**.
 - `BASE_URL`
 - `AUTH_MODE`: `none | bearer | api-key` (descriptive only; no secrets)
 - `OUTPUT_SLUG`
-- `OUTPUT_DIR`: default `result/<OUTPUT_SLUG>/10-reports/security-baseline/`
+- `RUN_SLUG`: default `security-baseline-<yyyy-mm-dd>`
+- `OUTPUT_DIR`: default `result/<OUTPUT_SLUG>/10-reports/security-baseline/<RUN_SLUG>/`
 - `TOOLING_DIR`: default `result/<OUTPUT_SLUG>/09-performance/zap/`
 
 # Goal
 - Configure a ZAP baseline runner that detects common passive-scan issues and produces reports.
 - Keep the initial baseline in warn-only mode so it does not block delivery immediately.
+- Publish a polished curated security-baseline handoff when enough evidence exists.
+
+# Required Curated Report Files
+
+Under `result/<OUTPUT_SLUG>/10-reports/security-baseline/<run-slug>/`, produce or refresh at minimum:
+
+- `00_index.md`
+- `01_scan-context.md`
+- `02_alert-summary.md`
+- `03_findings-and-false-positive-notes.md`
+- `04_limitations-and-next-actions.md`
+- `dashboard.html` when a responsible renderer path exists
 
 # Required Output Files
 - Do not scan production unless explicit permission exists.
@@ -36,10 +49,12 @@ You are an **AppSec-Minded QA and API Test Tooling Engineer**.
 1. Create a local or container runner that executes ZAP baseline against `BASE_URL`.
 2. Write HTML/JSON outputs into the canonical security-baseline report folder.
 3. Define allowlists or ignore rules only when justified.
+4. Publish a curated markdown + dashboard handoff aligned with `templates/api-pack/reports/dashboard-reporting-contract.md`.
 
 # Self-Check
 - [ ] Reports are generated into the canonical report folder
 - [ ] The runner remains warn-only and does not block by default
+- [ ] The curated security-baseline handoff exists and any dashboard matches the evidence
 
 # Execute Now
 Run this as an add-on after a stable smoke suite or an explicitly permitted HTTP target exists.

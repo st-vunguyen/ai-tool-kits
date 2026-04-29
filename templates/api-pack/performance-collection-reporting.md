@@ -44,3 +44,12 @@ Use this guide as the canonical reporting contract for performance workloads gen
 - `03_run-results.md`
 - `04_findings-and-bottlenecks.md`
 - `05_limitations-and-next-actions.md`
+- `dashboard.html`
+- optional `dashboard-data.json`
+
+## Dashboard expectations
+
+- Include an executive-style dashboard when the selected stack can support it responsibly.
+- Show status, environment, stack, key metrics, top bottlenecks, limitations, and next actions near the top.
+- Link the dashboard back to markdown handoff files and raw performance evidence.
+- If the run is constrained or blocked, say so prominently in the dashboard header.

@@ -18,6 +18,7 @@ Your task is to create a performance workload artifact appropriate for the selec
 # Goal
 - Generate a performance workload artifact appropriate for the selected stack.
 - Provide a reusable local runner baseline, environment template, and reporting guidance.
+- Prepare the curated reporting path so downstream execution can publish a dashboard-grade handoff.
 
 # Required Output Files
 Create real files under `result/<OUTPUT_SLUG>/09-performance/` and `result/<OUTPUT_SLUG>/10-reports/` when needed.
@@ -28,6 +29,7 @@ At minimum, create:
 - `result/<OUTPUT_SLUG>/09-performance/run-local.ps1`
 - `result/<OUTPUT_SLUG>/09-performance/execution-config.json`
 - `result/<OUTPUT_SLUG>/02-strategy/performance-collection-reporting.md`
+- `result/<OUTPUT_SLUG>/10-reports/performance/README.md`
 
 If the selected stack supports it, also create a starter workload artifact such as:
 
@@ -54,6 +56,7 @@ If the selected stack supports it, also create a starter workload artifact such 
 3. Create the stack-specific starter workload artifact.
 4. If JMeter is justified, also create the standard JMeter sub-pack and record why it is needed.
 5. Document limitations when the target stack is only partially suitable for performance testing.
+6. Align the curated report path with `templates/api-pack/reports/dashboard-reporting-contract.md` and `templates/api-pack/reports/dashboard-html-guidelines.md`.
 
 # Self-Check
 - [ ] The performance artifact exists
@@ -65,3 +68,4 @@ If the selected stack supports it, also create a starter workload artifact such 
 - The artifact matches the selected stack
 - The runner baseline is safe by default and points raw output to the canonical reports location
 - Reporting guidance clearly labels evidence versus assumptions
+- The curated report path is ready for markdown + dashboard output

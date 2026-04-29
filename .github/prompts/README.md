@@ -53,18 +53,20 @@ If you want the full flow, start with:
 | 18 | `04-non-functional/18-performance-scenarios.prompt.md` | `result/<output-slug>/03-scenarios/` |
 | 19 | `04-non-functional/19-performance-collection.prompt.md` | `result/<output-slug>/09-performance/` |
 | 20 | `04-non-functional/20-zap-security-scanning.prompt.md` | `result/<output-slug>/09-performance/zap/` + `result/<output-slug>/10-reports/security-baseline/` |
-| 21 | `04-non-functional/21-fully-performance-testing.prompt.md` | `result/<output-slug>/10-reports/raw/performance/` + `result/<output-slug>/10-reports/performance/` |
-| 22 | `05-maintenance/22-maintenance-fully-api-testing.prompt.md` | `result/<output-slug>/10-reports/<run-slug>/` + refreshed assets |
+| 21 | `04-non-functional/21-fully-performance-testing.prompt.md` | `result/<output-slug>/10-reports/raw/performance/` + `result/<output-slug>/10-reports/performance/` + `dashboard.html` |
+| 22 | `05-maintenance/22-maintenance-fully-api-testing.prompt.md` | `result/<output-slug>/10-reports/maintenance/<run-slug>/` + refreshed assets |
 | 23 | `04-non-functional/23-jmeter-stack-setup.prompt.md` | `result/<output-slug>/09-performance/jmeter/` |
 | 24 | `04-non-functional/24-jmeter-convert-collections.prompt.md` | `result/<output-slug>/09-performance/jmeter/` + `04-traceability/` |
 | 25 | `04-non-functional/25-jmeter-execute-and-report.prompt.md` | `result/<output-slug>/10-reports/raw/performance/jmeter/` + `result/<output-slug>/10-reports/performance/jmeter/` |
-| 26 | `04-non-functional/26-jmeter-report-analysis.prompt.md` | `result/<output-slug>/10-reports/performance/jmeter/` |
-| 27 | `05-maintenance/27-verification-findings-and-recommendations.prompt.md` | `result/<output-slug>/10-reports/verification/<run-slug>/` |
+| 26 | `04-non-functional/26-jmeter-report-analysis.prompt.md` | `result/<output-slug>/10-reports/performance/jmeter/` + `dashboard.html` |
+| 27 | `05-maintenance/27-verification-findings-and-recommendations.prompt.md` | `result/<output-slug>/10-reports/verification/<run-slug>/` + `dashboard.html` |
 
 ## Notes
 
 - Do not write outputs into `documents/` or `tools/` anymore.
 - If a prompt refers to an output root, always interpret it as `result/<output-slug>/`.
+- For curated reports, always use a named report family under `10-reports/`; do not create loose run folders directly under `10-reports/`.
 - If you need scaffolding first, run `pnpm run apply -- --slug <output-slug>`.
 - Do not create root `.github/workflows/` entries for the tested project or API; this tool prefers locally managed or container-based runners owned by the repository.
 - Use `05-maintenance/27-verification-findings-and-recommendations.prompt.md` when you need a final trust pass for findings, contradictions, root cause, and prioritized recommendations.
+- Use the dashboard reporting contract under `templates/api-pack/reports/` when polished execution or verification reporting is required.

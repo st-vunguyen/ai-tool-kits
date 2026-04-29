@@ -1,18 +1,41 @@
-MODE=technical
+---
+agent: agent
+description: "Phase 4 of 4 — Non-functional, Security & Reporting: Run prompts 18 through 22 and optional 23–27. Covers performance scenarios, k6/Newman performance collections, ZAP security baseline, performance execution, and maintenance/verification reports."
+tools: ['search', 'edit', 'new', 'todos', 'runSubagent', 'problems', 'changes', 'runCommands', 'runTasks']
+---
 
 # Run the Full API Testing Pipeline
 
-Use this prompt as the primary entry point when you want to run the complete API testing pipeline across the grouped prompt layout without silently skipping any required phase.
+Use this prompt as the primary entry point when you want to run the complete API testing pipeline.
+
+## ⚠️ IMPORTANT: Context Window Limitation
+
+Running all 22+ prompts in a single AI session will produce **incomplete, degraded output** because:
+- The AI context window fills up → later prompts get less attention
+- AI "summarizes" instead of fully executing each step
+- Required output files get skipped silently
+
+**The correct approach is to run the 4 phases separately:**
+
+```
+Phase 1: .github/prompts/00-orchestration/00-run-phase-1.prompt.md  (prompts 01–06)
+Phase 2: .github/prompts/00-orchestration/00-run-phase-2.prompt.md  (prompts 07–09) ← MOST CRITICAL
+Phase 3: .github/prompts/00-orchestration/00-run-phase-3.prompt.md  (prompts 10–17)
+Phase 4: .github/prompts/00-orchestration/00-run-phase-4.prompt.md  (prompts 18–27)
+```
+
+Each phase is self-contained, verifies its own output files, and hands off to the next.
+
+**Run order: Phase 1 → Phase 2 → Phase 3 → Phase 4**
+
+---
 
 ## Role
 
 You are a **QA Program Orchestrator, API Test Architect, and Test Tooling Coordinator**.
-Your job is to:
 
-- run the full prompt sequence in the correct order
-- keep handoffs between prompts explicit
-- ensure no prompt is omitted from the full pipeline
-- allow a prompt to be skipped only when it is genuinely not applicable, with a recorded reason and impact
+If the user explicitly requests a single-session pipeline run (accepting degraded output), proceed below.
+Otherwise, **redirect to the phase-based approach**.
 
 ## Goal
 
@@ -50,6 +73,7 @@ The pipeline must cover these capability groups:
 - Human-readable artifacts: `result/<OUTPUT_SLUG>/...`
 - Runnable assets: `result/<OUTPUT_SLUG>/...`
 - Runtime tooling contract: `tooling/runtime-tools.json`, `scripts/runtime-tools.js`, and runner wrappers under `result/<OUTPUT_SLUG>/09-performance/`
+- Dashboard reporting contract: `templates/api-pack/reports/dashboard-reporting-contract.md` and `templates/api-pack/reports/dashboard-html-guidelines.md`
 
 ## Bootstrap Support Files First
 
@@ -61,6 +85,7 @@ For best cross-tool compatibility, reuse both support layouts:
 - `.claude/agents/api-testing-qc.agent.md`
 - `.claude/agents/api-spec-reviewer.agent.md`
 - `.claude/agents/api-report-verifier.agent.md`
+- `.claude/skills/reporting/SKILL.md`
 - `.claude/skills/testing/SKILL.md`
 - `.claude/skills/testing/references/test-helpers-api.md`
 - `.claude/rules/planning.md`
@@ -226,8 +251,12 @@ The full pipeline must not describe an API as fully covered when only the succes
 
 19. `../04-non-functional/19-performance-collection.prompt.md`
     - Output roots:
-      - `result/<OUTPUT_SLUG>/09-performance/README.md`
+      - `result/<OUTPUT_SLUG>/09-performance/k6-script.js`
+      - `result/<OUTPUT_SLUG>/09-performance/execution-config.json`
       - `result/<OUTPUT_SLUG>/09-performance/local.env.example`
+      - `result/<OUTPUT_SLUG>/09-performance/newman-performance.collection.json`
+      - `result/<OUTPUT_SLUG>/09-performance/newman-performance.postman_environment.json.example`
+      - `result/<OUTPUT_SLUG>/09-performance/README.md`
       - `result/<OUTPUT_SLUG>/02-strategy/performance-collection-reporting.md`
     - Dependency: should run after `18`
 
@@ -242,18 +271,22 @@ The full pipeline must not describe an API as fully covered when only the succes
       - `result/<OUTPUT_SLUG>/09-performance/`
       - `result/<OUTPUT_SLUG>/10-reports/raw/performance/<run-slug>/`
       - `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/`
+      - `result/<OUTPUT_SLUG>/10-reports/performance/<run-slug>/dashboard.html`
     - Dependency: should run after `18` and `19`
     - Purpose: bootstrap tooling, execute the generated performance workload safely, and publish curated evidence
 
 22. `../05-maintenance/22-maintenance-fully-api-testing.prompt.md`
     - Output roots:
-      - `result/<OUTPUT_SLUG>/10-reports/<run-slug>/`
+      - `result/<OUTPUT_SLUG>/10-reports/maintenance/<run-slug>/`
       - refreshed assets under the impacted output folders
     - Purpose: refresh the pack after source-spec or scope changes
 
 27. `../05-maintenance/27-verification-findings-and-recommendations.prompt.md`
     - Output roots:
-      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/`
+      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/verification-report.md`
+      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/contradictions.md`
+      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/recommendations.md`
+      - `result/<OUTPUT_SLUG>/10-reports/verification/<run-slug>/dashboard.html`
     - Purpose: perform a final trust pass across findings, contradictions, likely root cause, and prioritized recommendations
 
 ### Advanced JMeter Extension

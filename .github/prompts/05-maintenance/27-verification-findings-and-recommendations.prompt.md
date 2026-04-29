@@ -33,7 +33,7 @@ Write only to:
 `result/<OUTPUT_SLUG>/10-reports/verification/<RUN_SLUG>/`
 
 # Required Output Files
-Create these six files in the output root:
+Create these seven files in the output root:
 
 1. `00_index.md`
 2. `01_verification-scope-and-evidence.md`
@@ -41,6 +41,11 @@ Create these six files in the output root:
 4. `03_contradictions-and-root-cause.md`
 5. `04_prioritized-recommendations.md`
 6. `05_approval-and-confidence.md`
+7. `dashboard.html`
+
+Optional when a renderer needs structured input:
+
+- `dashboard-data.json`
 
 Use `templates/api-pack/reports/verification-findings-report-template.md` as the canonical structure reference.
 
@@ -129,6 +134,11 @@ For every major finding, capture:
 - confidence boundaries
 - minimum evidence needed for the next approval pass
 
+## `dashboard.html`
+- executive summary view of approval state, top findings, blockers, and prioritized recommendations
+- links back to markdown findings and evidence sources
+- must not introduce any conclusion absent from the markdown handoff
+
 # Anti-Hallucination Rules
 - Never invent evidence to complete a finding.
 - Never flatten multiple plausible causes into a single certainty claim without support.
@@ -136,11 +146,12 @@ For every major finding, capture:
 - Never treat missing raw evidence as implicit confirmation.
 
 # Self-Check
-- [ ] All six required files exist in the output root
+- [ ] All seven required files exist in the output root
 - [ ] Every major finding has observation, evidence, classification, likely cause, confidence boundary, and recommendation
 - [ ] Contradictions are recorded explicitly instead of silently resolved
 - [ ] Recommendation priority is tied to risk or unblock value
 - [ ] The approval decision does not exceed the evidence
+- [ ] The dashboard, if produced, matches the markdown handoff and raw evidence
 
 # Execute Now
 If earlier artifacts already exist under `result/<OUTPUT_SLUG>/`, use them as evidence inputs rather than duplicating the same analysis in new prose.

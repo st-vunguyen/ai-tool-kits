@@ -10,6 +10,12 @@ specs/  →  .github/prompts/  →  result/
 
 There is no longer an "apply this kit into another repository" model. Place the spec in `specs/`, choose the appropriate prompt from `.github/prompts/`, and write all outputs into `result/` using the canonical phase layout.
 
+## Most users only touch three places
+
+- `specs/<slug>/` — drop the source spec and supporting docs here
+- `.github/prompts/` — choose the prompt matching the current phase
+- `result/<slug>/` — read and store every generated output here
+
 ## Quick Start
 
 ```bash
@@ -69,7 +75,9 @@ result/<project>/
 └── 10-reports/
     ├── raw/
     ├── performance/
-    └── security-baseline/
+    ├── security-baseline/
+    ├── verification/
+    └── maintenance/
 ```
 
 ## What Each Folder Means in `result/<project>/`
@@ -85,7 +93,16 @@ result/<project>/
 | `07-data/` | Sample data, status cases, generators |
 | `08-helpers/` | Runbooks, helper notes, fixture notes |
 | `09-performance/` | k6, Newman performance, JMeter starter assets, performance guidance |
-| `10-reports/` | Raw outputs, curated reports, and security/performance findings |
+| `10-reports/` | Raw outputs plus curated report families: `performance/`, `security-baseline/`, `verification/`, `maintenance/` |
+
+## How to read a finished pack
+
+1. Open `result/<slug>/README.md`
+2. Read `02-strategy/` for scope and risk decisions
+3. Read `04-traceability/` for operation/status coverage
+4. Read the latest `10-reports/<report-family>/<run-slug>/00_index.md`
+
+Do not create loose run folders directly under `10-reports/`.
 
 ## Runtime Toolchain
 
@@ -164,6 +181,7 @@ The script creates `result/<slug>/` with the full baseline folder structure and 
 - The canonical prompt source is `.github/prompts/`
 - Active editor-loaded rules and skills live in `.claude/rules/` and `.claude/skills/`
 - All generated outputs live in `result/<project>/`
+- Polished execution and verification reports should follow the dashboard contract in `templates/api-pack/reports/`
 - All usage instructions must go through `pnpm` or `pnpx`
 - Do not split content back into `documents/` and `tools/`
 - Do not spread outputs outside `result/`

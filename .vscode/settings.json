@@ -1,11 +1,19 @@
 {
-  "chat.instructionsFilesLocations": {
+    "chat.instructionsFilesLocations": {
     ".claude/rules": true,
+    ".claude/agents": true,
+    ".claude/skills/**": true,
   },
+
+  "chat.promptFilesLocations": {
+    ".github/prompts/**": true,
+  },
+
   "chat.useAgentSkills": true,
   "chat.agentSkillsLocations": {
-    ".claude/skills": true,
+    ".claude/skills/**": true,
   },
+  
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
   "typescript.tsdk": "node_modules/typescript/lib"

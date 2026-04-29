@@ -42,6 +42,11 @@ result/<slug>/
 ├── 08-helpers/
 ├── 09-performance/
 └── 10-reports/
+	├── raw/
+	├── performance/
+	├── security-baseline/
+	├── verification/
+	└── maintenance/
 ```
 
 ## Recommended Workflow
@@ -52,8 +57,11 @@ result/<slug>/
 4. Write outputs only into the matching phase inside `result/<slug>/`.
 5. If execution is needed, continue with `docs/RUNTIME_TOOLS.md`.
 
+For report outputs, always place curated handoff files under a report family such as `10-reports/performance/<run-slug>/` or `10-reports/maintenance/<run-slug>/`.
+
 ## Quick Checks
 
 - Confirm that `result/<slug>/README.md` has been created.
 - Confirm that `result/<slug>/05-postman/`, `09-performance/`, and `10-reports/` all exist.
+- Confirm that `10-reports/` uses family folders and does not contain loose run directories.
 - Confirm that no new outputs were written outside `result/<slug>/`.

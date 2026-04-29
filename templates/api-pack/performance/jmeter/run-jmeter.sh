@@ -3,18 +3,22 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PERF_DIR="$(cd "${ROOT_DIR}/.." && pwd)"
-REPORTS_DIR="$(cd "${PERF_DIR}/../reports/raw" && pwd)"
+SLUG_ROOT="$(cd "${PERF_DIR}/.." && pwd)"
+KIT_ROOT="$(cd "${ROOT_DIR}/../../../.." && pwd)"
+RAW_REPORTS_DIR="${SLUG_ROOT}/10-reports/raw"
+CURATED_REPORTS_DIR="${SLUG_ROOT}/10-reports/performance/jmeter"
 RUN_SLUG="${RUN_SLUG:-jmeter-$(date +%Y%m%d-%H%M%S)}"
-OUT_DIR="${OUT_DIR:-${REPORTS_DIR}/performance/jmeter/${RUN_SLUG}}"
+OUT_DIR="${OUT_DIR:-${RAW_REPORTS_DIR}/performance/jmeter/${RUN_SLUG}}"
+CURATED_DIR="${CURATED_DIR:-${CURATED_REPORTS_DIR}/${RUN_SLUG}}"
 TEST_PLAN_PATH="${TEST_PLAN_PATH:-${ROOT_DIR}/starter-test-plan.jmx}"
 USER_PROPERTIES_PATH="${USER_PROPERTIES_PATH:-${ROOT_DIR}/user.properties}"
 REPORT_PROPERTIES_PATH="${REPORT_PROPERTIES_PATH:-${ROOT_DIR}/reportgenerator.properties}"
 RESULTS_FILE="${RESULTS_FILE:-${OUT_DIR}/results.csv}"
 LOG_FILE="${LOG_FILE:-${OUT_DIR}/jmeter.log}"
 HTML_REPORT_DIR="${HTML_REPORT_DIR:-${OUT_DIR}/report-output}"
-DASHBOARD_HTML="${DASHBOARD_HTML:-${OUT_DIR}/dashboard.html}"
+DASHBOARD_HTML="${DASHBOARD_HTML:-${CURATED_DIR}/dashboard.html}"
 JMETER_BIN="${JMETER_BIN:-jmeter}"
-RENDERER_SCRIPT="${RENDERER_SCRIPT:-${ROOT_DIR}/render-jmeter-dashboard.js}"
+DASHBOARD_SCRIPT="${DASHBOARD_SCRIPT:-${KIT_ROOT}/scripts/render-report-dashboard.js}"
 
 if [[ -f "${PERF_DIR}/local.env" ]]; then
   set -a
@@ -23,6 +27,7 @@ if [[ -f "${PERF_DIR}/local.env" ]]; then
 fi
 
 mkdir -p "${OUT_DIR}"
+mkdir -p "${CURATED_DIR}"
 
 if [[ "${SAFE_TO_RUN:-no}" != "yes" ]]; then
   echo "SAFE_TO_RUN is not 'yes'. Refusing to execute JMeter workload."
@@ -39,12 +44,15 @@ command -v "${JMETER_BIN}" >/dev/null 2>&1 || { echo "JMeter executable not foun
   -j "${LOG_FILE}" \
   -e -o "${HTML_REPORT_DIR}"
 
-if [[ -f "${RENDERER_SCRIPT}" ]]; then
-  node "${RENDERER_SCRIPT}" \
-    --stats "${HTML_REPORT_DIR}/statistics.json" \
-    --output "${DASHBOARD_HTML}" \
+if [[ -f "${DASHBOARD_SCRIPT}" ]]; then
+  node "${DASHBOARD_SCRIPT}" build \
+    --mode jmeter \
+    --input "${HTML_REPORT_DIR}/statistics.json" \
+    --output-dir "${CURATED_DIR}" \
+    --output-html "${DASHBOARD_HTML}" \
     --title "JMeter Executive Dashboard" \
     --run-label "${RUN_SLUG}" || true
 fi
 
 echo "JMeter raw outputs written to: ${OUT_DIR}"
+echo "JMeter curated outputs written to: ${CURATED_DIR}"

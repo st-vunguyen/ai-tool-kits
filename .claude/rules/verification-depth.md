@@ -41,3 +41,25 @@ Every important finding should answer these questions explicitly when evidence a
 - recommendations must name the owner context when possible: `spec`, `docs`, `test asset`, `runtime access`, or `target system`
 - avoid vague endings like `needs more verification` unless followed by the exact missing evidence or next check
 - if nothing safe can be done, say what minimal evidence is required to continue
+
+## Required Output Files verification (MANDATORY)
+
+After every prompt execution that declares a `Required Output Files` section:
+
+1. **List every required file** from the prompt's checklist explicitly.
+2. **Confirm existence and non-empty content** for each file before marking the step complete.
+3. **Block progression** to the next step if any required file is missing or empty — do not silently skip.
+4. **Report the gap**: if a file is missing, state the filename, the step that should have created it, and what content is expected.
+5. **Never summarize** a phase as "complete" unless every file in its Required Output Files checklist is confirmed present and non-trivially populated.
+
+### Pipeline phase gates
+
+- Phase N+1 **must not start** until Phase N's full Required Output Files list is verified.
+- If a phase is only partially complete, mark it `Partial — blocked on: <list missing files>` before proceeding.
+- Do not proceed on the assumption that a previous phase "probably" produced its outputs; verify explicitly.
+
+### Collection-specific output rules
+
+- A Postman collection file is not considered complete if any operation's `response[]` array is empty `[]`.
+- A collection is not considered complete if any operation has fewer request items than its documented status codes.
+- A collection is not considered complete if any request uses a hard-coded credential instead of an `{{env_var}}` reference.

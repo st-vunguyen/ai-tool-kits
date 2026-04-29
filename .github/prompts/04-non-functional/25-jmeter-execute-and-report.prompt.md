@@ -43,6 +43,8 @@ At minimum, produce:
 - `02_run-summary.md`
 - `03_transaction-observations.md`
 - `04_limitations-and-next-actions.md`
+- `dashboard.html`
+- optional `dashboard-data.json`
 
 # Execution Rules
 - Refuse to run if `SAFE_TO_RUN != yes`.
@@ -58,6 +60,7 @@ At minimum, produce:
 4. Confirm the standard JMeter dashboard exists.
 5. Generate an executive dashboard when supported.
 6. Publish a curated markdown summary that distinguishes evidence, assumptions, and blockers.
+7. Keep the dashboard aligned with `templates/api-pack/reports/dashboard-reporting-contract.md`.
 
 # Self-Check
 - [ ] Raw run directory exists
@@ -70,3 +73,4 @@ At minimum, produce:
 - Standard JMeter artifacts were captured
 - Executive dashboard was generated when possible
 - Curated report is readable by engineering and stakeholders
+- Dashboard headline metrics match markdown and raw artifacts

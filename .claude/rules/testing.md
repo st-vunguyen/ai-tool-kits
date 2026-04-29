@@ -47,10 +47,23 @@ Testing in this repository must follow a repeatable cycle:
 
 - Every in-scope operation should have an explicit status state when evidence allows it.
 - Allowed states include `Covered`, `Planned`, `Blocked`, `Out of scope with reason`, and `Unknown / needs confirmation`.
-- Do not imply “full coverage” if only `200` or happy-path cases exist.
+- Do not imply "full coverage" if only `200` or happy-path cases exist.
 - Where auth, validation, conflict, pagination, idempotency, or throttling statuses are evidenced, represent them explicitly.
 
-## Report verification rules
+## Per-status request rules (Postman collections)
+
+- Every operation MUST have **one dedicated request item per documented status code**; a single happy-path request is never sufficient.
+- Request naming convention: `"{Verb Noun} — {CODE} {Label}"` (e.g., `"Create Project — 201 Created"`, `"Create Project — 400 Bad Request"`).
+- A collection step is **not complete** if any operation has fewer request items than its documented status codes.
+- A collection step is **not complete** if any operation's `response[]` array is `[]`; every request must carry at least one saved example.
+- A collection step is **not complete** if any request uses a hard-coded credential or base URL instead of an `{{env_var}}` reference.
+- Auth, validation-error, conflict, rate-limit, and forbidden requests must each carry a distinct `pm.test` assertion block; do not reuse the 2xx script verbatim.
+
+## Required Output Files gate
+
+- A generation step is **not done** until every file listed in its `Required Output Files` section exists on disk with non-empty content.
+- If any file is missing at the end of a step, report the gap explicitly and do not mark the step complete.
+- Never summarize a phase as "complete" unless all its required files are confirmed present and non-trivially populated.
 
 - A report is not finished until its claims match the spec, docs, and/or runtime outputs.
 - Separate:
@@ -59,6 +72,7 @@ Testing in this repository must follow a repeatable cycle:
 	- evidence gaps / blockers
 - If raw evidence is missing, say so explicitly in the report.
 - If confidence is partial, label the confidence boundary instead of compressing it into a definitive conclusion.
+- If a dashboard exists, verify that its top-line KPIs, severity states, and recommendations match the markdown report and raw artifacts.
 
 ## Consistency rules
 
